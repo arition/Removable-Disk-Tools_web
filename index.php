@@ -1,8 +1,22 @@
+<?php
+$login_failed=false;
+if($_GET["action"]=="login"){
+	if($_POST["username"]=="admin"&&$_POST["password"]=="admin"){
+		session_start();
+		$_SESSION['login']="true";
+		$_SESSION["username"]=$_POST["username"];
+		header("Location: /device.php");
+		exit();
+	}else{
+		$login_failed=true;
+	}
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Getting Started - Bootflat</title>
+    <title>登录 - Removable Disk Tools</title>
     <!-- Sets initial viewport load and disables zooming  -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="css/bootflat.min.css">
@@ -36,7 +50,19 @@
     </nav>
     <div class="container">
       <div class="starter-template"> 
-      <h3>设备列表  <small>Device List</small></h3>
+        <form action="/index.php?action=login" method="post" class="form-signin" role="form">
+          <h3>登录</h3>
+          <div class="alert alert-warning alert-dismissable fade in"<?php if(!login_failed){ ?> style="display:none"<?php } ?>>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            用户名或密码错误！
+          </div>
+          <input id="username" name="username" type="text" class="form-control" placeholder="用户名" required autofocus>
+          <br />
+          <input id="password" name="password" type="password" class="form-control" placeholder="密码" required>
+          <br />
+          <button type="submit" class="btn btn-primary btn-lg btn-block">登录</button>
+        </form>
+      </div>
     </div>
   	<script src="js/jquery.min.js"></script>
   	<script src="js/bootstrap.min.js"></script>
